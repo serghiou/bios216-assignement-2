@@ -1,8 +1,8 @@
-# README
+# BIOS 216 - Assignment 2
 
 ## Authors
 
-Stylianos (Stelios) Serghiou, Eirini Tsekitsidou
+Stylianos (Stelios) Serghiou
 
 
 ## Publication
@@ -21,42 +21,15 @@ Combining resources across OSF and GitHub should yield the following structure.
 │
 ├── data
 │   ├── raw             <- The original, immutable data dump.
-│   │   └── <experiment>
-│   │       └── <conditions/replicate>
-│   │           └── <date as YYYY-MM-DD>
-│   ├── external        <- Data from third party sources (e.g., US Census).
-│   │   └── <provider>
-│   │       └── <date as YYYY-MM-DD>
-│   ├── intermediate       <- Intermediate data that has been standardized, formatted, deduped, etc.
-│   │   └── <experiment>
-│   │       └── <conditions/replicate>
-│   │           └── <date as YYYY-MM-DD>
-│   ├── extracted       <- Tabular data extracted from conformed image data.
-│   │   └── <experiment>
-│   │       └── <conditions/replicate>
-│   │           └── <date as YYYY-MM-DD>
+│   │   └── <date as YYYY-MM-DD>
 │   └── tidy            <- The final, canonical datasets for analysis. Includes engineered features.
-│       └── <experiment>
 │
 ├── code
 │   ├── data-processing <- Code to process data from raw all the way to tidy.
-│   │   └── <experiment>
-│   ├── draft-analyses  <- Code that operates on tidy data for draft data analytics and visualizations.
 │   └── final-analyses  <- Code that operates on tidy data to produce text, figures and tables as they appear in pubilcations.
 │
 ├── output
-│   ├── draft           <- Tables and figures from the draft analytics
-│   │   └── <experiment>
-│   └── final           <- Tables and figures from the final analytics
-│
-├── docs                <- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── publication                      
-│   └── journal                      <- Journal that this was submitted to
-│       └── submission-1_YYYY-MM-DD  <- All materials of submission 1
-│           ├── docs                 <- All documents for submission
-│           ├── figures              <- All figures for submission
-│           └── tables               <- All tables for submission
+│   └── final-analyses  <- Tables and figures from the final analytics
 │
 ├── .github
 │   ├── linters         <- Configuration files for all linters being used
@@ -118,7 +91,7 @@ As of the time of writing, these are on a Share Drive on Google Drive [here](htt
 
 To run this code, use the following diagramatic acyclic graph (DAG). Note that this applies for each experiment. Note that you need to combine all resources first into one repository to run.
 
-![How to run diagram](https://github.com/serghiou/repo-template/blob/main/how-to-run.jpg?raw=true)
+![How to run diagram](https://github.com/serghiou/bios216-assignement-2/blob/main/how-to-run.jpg?raw=true)
 
 ### From the Dockerfile
 
@@ -149,7 +122,7 @@ docker cp 355b7a4764f6:/project/code/final_analytics/paper-from-code.html code/f
 
 ## How to get help
 
-If you encounter a bug, please file an issue with a minimal reproducible example [here](https://github.com/serghiou/repo-template/issues) and please Label it as a "bug" (option on the right of your window). For help on how to use the package, please file an issue with a clearly actionable question [here](https://github.com/serghiou/repo-template/issues) and label it as "help wanted." For all other questions and discussion, please email the first author.
+If you encounter a bug, please file an issue with a minimal reproducible example [here](https://github.com/serghiou/bios216-assignement-2/issues) and please Label it as a "bug" (option on the right of your window). For help on how to use the package, please file an issue with a clearly actionable question [here](https://github.com/serghiou/bios216-assignement-2/issues) and label it as "help wanted." For all other questions and discussion, please email the first author.
 
 
 ## How to contribute

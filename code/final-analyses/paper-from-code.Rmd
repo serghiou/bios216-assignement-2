@@ -155,8 +155,7 @@ Locations.
 
 ```{r}
 # Source locations
-src_dirname <- "../../data/tidy/exp=membrane-permeabilization/"
-src_basename <- "2023-03-11.csv"
+src_filename <- "../../data/tidy/cars_2024-03-18.csv"
 
 # Destination locations
 dst_dirname <- "../../outputs/final/paper-from-code/"
@@ -170,13 +169,21 @@ UPDATE_DOCKERFILE <- FALSE # nolint⁠
 ```
 
 
+## Outputs
+
+```{r}
+plots <- list()
+tables <- list()
+```
+
+
 ------------------------------------------------------------------------
 
 # Read
 
 ```{r}
 # Read all csv files
-membrane_ <- read_csv(file.path(src_dirname, src_basename))
+car_ <- read_csv(src_filename)
 ```
 
 
@@ -187,35 +194,7 @@ membrane_ <- read_csv(file.path(src_dirname, src_basename))
 Create file.
 
 ```{r}
-membrane <- membrane_
-```
-
-
-------------------------------------------------------------------------
-
-# Text
-
-Compute difference between channels.
-
-```{r}
-# Create channel columns and difference
-wide <-
-  membrane %>%
-  pivot_wider(
-    id_cols = condition,
-    names_from = channel,
-    names_glue = "channel_{channel}",
-    values_from = mean_intensity
-  ) %>%
-  mutate(diffs = channel_1 - channel_2)
-
-# Compute mean in differences
-mean_diff <- wide %>%
-  pull(diffs) %>%
-  mean()
-
-# Print mean
-sprintf("Mean intensity difference in Channel 1 vs. 2 = %.1f units", mean_diff)
+car <- car_
 ```
 
 
@@ -225,48 +204,15 @@ sprintf("Mean intensity difference in Channel 1 vs. 2 = %.1f units", mean_diff)
 
 ## Figure 1
 
-### Panel a
-
 ```{r}
 # Plot
-membrane_histogram <-
-  membrane %>%
-  mutate(channel = paste("Channel", channel)) %>%
-  ggplot(aes(x = mean_intensity, fill = channel, color = channel)) +
-  geom_histogram(alpha = 0.7) +
-  facet_wrap(vars(condition)) +
-  labs(x = "Mean intensity (units)", y = "Counts") +
-  theme_minimal() +
-  theme(
-    axis.title.x = element_text(vjust = -1),
-    axis.title.y = element_text(vjust = 3),
-    legend.title = element_blank()
-  )
+plots$figure_1 <-
+  car %>%
+  ggplot(aes(x = distance, y = speed)) +
+  geom_point()
 
 # Print
-membrane_histogram
-```
-
-### Panel b
-
-I am choosing an image on the following criteria:
-
-1. xxx
-2. xxx
-3. ...
-
-On the basis of this criteria, I will be illustrating the following image:
-
-```{r}
-# Choose image
-from_experiment <- "../../data/conformed/exp=membrane-permeabilization/"
-from_condition <- "detergent=digitonin_conc=0.02mmolar_minutes=1/"
-from_basename <- "date=2022-03-19_488=poc5_594=cnb_01_01.tif"
-
-# Copy paste to output directory
-from <- file.path(from_experiment, from_condition, from_basename)
-to <- file.path(dst_dirname, "figure_1b.tif")
-file.copy(from, to)
+plots$figure_1
 ```
 
 
@@ -274,7 +220,17 @@ file.copy(from, to)
 
 # Tables
 
+## Table 1
+
 ```{r}
+# Create table
+tables$table_1 <-
+  car %>%
+  group_by(speed) %>%
+  summarize(mean_distance = mean(distance))
+
+# Print table
+tables$table_1
 ```
 
 
@@ -321,8 +277,8 @@ Write all figures.
 ```{r}
 # Save
 ggsave(
-  file.path(dst_dirname, "paper-from-code_fig_1a.pdf"),
-  membrane_histogram,
+  file.path(dst_dirname, "paper-from-code_figure_1.pdf"),
+  plots$figure_1,
   height = 4,
   width = 6
 )
@@ -334,6 +290,7 @@ ggsave(
 Write all tables.
 
 ```{r}
+write_csv(tables$table_1, file.path(dst_dirname, "table_1.csv"))
 ```
 
 
@@ -378,8 +335,6 @@ if (UPDATE_DOCKERFILE) {
   # Write file
   write(my_dockerfile, file = "~/Dockerfile")
 }
-
-print(my_dockerfile)
 ```
 
 
